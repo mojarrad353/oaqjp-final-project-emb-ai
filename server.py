@@ -11,19 +11,23 @@ def sent_detctor():
     #retrieve the emotion from the emotion_detector
     response = emotion_detector(text_to_analyze)
 
-    #retrieving the dominant emotion
-    dominant = response["dominant_emotion"]
+    if response['dominant_emotion'] == None:
+        return "Invalid text! Please try again!."
 
-    #prepare a list of emotion strings
-    emotion_strs = []
-    for key in ["anger", "disgust", "fear", "joy", "sadness"]:
-        emotion_strs.append(f"'{key}': {response[key]}")
+    else:
+        #retrieving the dominant emotion
+        dominant = response["dominant_emotion"]
 
-    #join with commas, add 'and' before the last item
-    response = ", ".join(emotion_strs[:-1]) + " and " + emotion_strs[-1]
+        #prepare a list of emotion strings
+        emotion_strs = []
+        for key in ["anger", "disgust", "fear", "joy", "sadness"]:
+            emotion_strs.append(f"'{key}': {response[key]}")
 
-    #showing the desired output
-    return f"For the given statement, the system response is {response}. The dominant emotion is <b>{dominant}</b>."
+        #join with commas, add 'and' before the last item
+        response = ", ".join(emotion_strs[:-1]) + " and " + emotion_strs[-1]
+
+        #showing the desired output
+        return f"For the given statement, the system response is {response}. The dominant emotion is <b>{dominant}</b>."
 
 @app.route("/")
 def render_index_page():
